@@ -1,0 +1,45 @@
+show dbs 查看有哪些数据库
+use 名字 创建数据库
+db.集合名字.insert({"name":"zhangshan"})
+show collections 显示当前数据库集合
+db.dropDatabase()删除数据库，删除当前所在的数据库
+db.user.drop();删除集合，删除指定集合
+db.集合名.find()查询所有记录
+查询某条记录  db.集合名.find({"age":30})
+查询age>22的记录 db.userinfo.find({"age":{$gt:24}})
+查询age>22的记录 db.userinfo.find({"age":{$lt:24}})
+查询age>=24的记录 db.userinfo.find({"age":{$gte:24}})
+查询age<=24的记录 db.userinfo.find({"age":{$lte:24}})
+查询age<=24且age>=28的记录 db.userinfo.find({"age":{$lte:24,$gte:28}})
+模糊查询title中有“文章” db.useinto.find({"title":/文章/})
+查询已name中以“第一”开头的 db.user.find({name:/^第一/})
+查询指定列 name、age数据db.userinfo.find({},{name:1,age:1})
+查询大于age大于24的列  db.user.find({"age":{$gt:24}},{name:1}) 
+按照年龄排序 1 升序 -1 降序
+升序：db.userInfo.find().sort({age: 1});
+降序：db.userInfo.find().sort({age: -1});
+查询前 5 条数据db.userInfo.find().limit(5);
+查询 10 条以后的数据db.userInfo.find().skip(10);
+查询在 5-10 之间的数据db.userInfo.find().limit(10).skip(5);可用于分页，limit 是 pageSize，skip 是第几页*pageSize
+or 与 查询db.userInfo.find({$or: [{age: 22}, {age: 25}]});
+数据出现的次数db.userInfo.find({age: {$gte: 25}}).count();
+
+查找名字叫做小明的，把年龄更改为 16 岁：
+1 db.student.update({"name":"小明"},{$set:{"age":16}});
+
+完整替换，不出现$set 关键字了： 注意
+1 db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+db.collectionsNames.remove( { "borough": "Manhattan","age": 18} )
+
+下面是创建索引的命令：
+db.user.ensureIndex({"username":1})
+获取当前集合的索引：
+db.user.getIndexes()
+删除索引的命令是：
+db.user.dropIndex({"username":1})
+数字 1 表示 username 键的索引按升序存储，-1 表示 age 键的索引按照降序方式存储。
+db.user.ensureIndex({"username":1, "age":-1})
+
+在缺省情况下创建的索引均不是唯一索引。下面的示例将创建唯一索引，如：
+db.user.ensureIndex({"userid":1},{"unique":true})
